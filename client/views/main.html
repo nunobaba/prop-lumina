@@ -1,0 +1,49 @@
+<head>
+  <title>Lumina</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+  {{> app}}
+</body>
+
+
+<template name="app">
+  <div class="container {{transiter}}">
+    <header class="hdr">
+      <div class="logo">
+        <strong>Rio Salado</strong> College
+      </div>
+      <div class="sub">
+        <h2 class="sub-motto">
+          Setting the standard for innovation inhigher education since 1978
+        </h2>
+        <div class="sub-section">{{sectionTitle}}</div>
+      </div>
+      <nav class="hnav">
+        <ul>
+          {{#foreach navTabs}}
+          <li class="hnav-it tab-{{this.key}}">
+            <a href="/{{this.key}}">{{this.val}}</a>
+          </li>
+          {{/foreach}}
+        </ul>
+      </nav>
+    </header>
+  
+    <article class="content">
+      {{> brochure}}
+    </article>
+  </div>
+</template>
+
+
+<template name="brochure">
+  {{#if discovering}}
+    <div class="find">
+      <input class="find-box" name="find-box"/>
+      <span class="find-msg">Which program would you like to check?</span>
+    </div>
+  {{/if}}
+</template>
+
