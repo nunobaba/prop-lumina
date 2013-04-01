@@ -22,13 +22,35 @@ $contentPad     = 13 * $u
 
 $linkColor      = #190756
 $linkColorHover = #4CAB99
+$switchOffColor = #ccc
+$switchOnColor  = #888
+
+// Mixins
+vertical_center(_height)
+  position absolute
+  top 50%
+  margin-top -.5 * _height
+
+// Mixin to automate tab animation
+animate_header(tab)
+  .fx-{tab}
+    .hnav-it:not(.tab-{tab})
+      animation slide_down .8s
+      animation-fill-mode forwards
+      animation-delay .16s
+    .tab-{tab} ~ .hnav-it
+      animation none
+    .tab-{tab}
+      position relative
+      animation slide_gt .8s
+      animation-fill-mode forwards
 
 
 // --------------------------------
 // Commons
 
 *
-  box-sizing(border-box)
+  box-sizing border-box
 
 html, body
   width 100%
@@ -39,6 +61,7 @@ html, body
 
 ::before, ::after 
   content ""
+  box-sizing border-box
 
 a
   color $linkColor
@@ -122,7 +145,7 @@ a
   right 0
   top 0
   font-weight 300
-  transform(translateX(100%))
+  transform translateX(100%)
 
 .hnav
   position absolute
@@ -145,26 +168,12 @@ a
 
 [class*="fx"]
   .sub-motto
-    animation(slide_gt .8s)
-    animation-fill-mode(forwards)
+    animation slide_gt .8s
+    animation-fill-mode forwards
   .sub-section
-    animation(slide_lt .8s)
-    animation-fill-mode(forwards)
-    animation-delay(.16s)
-
-// Mixin to automate tab animation
-animate_header(tab)
-  .fx-{tab}
-    .hnav-it:not(.tab-{tab})
-      animation slide_down .8s
-      animation-fill-mode forwards
-      animation-delay .16s
-    .tab-{tab} ~ .hnav-it
-      animation none
-    .tab-{tab}
-      position relative
-      animation slide_gt .8s
-      animation-fill-mode forwards
+    animation slide_lt .8s
+    animation-fill-mode forwards
+    animation-delay .16s
 
 animate_header("discover")
 
@@ -176,27 +185,26 @@ animate_header("about")
 @keyframes slide_gt
   100%
     opacity 0
-    transform(translateX(100%))
+    transform translateX(100%)
 
 @keyframes slide_lt
   100%
     opacity 1
-    transform(translateX(0))
+    transform translateX(0)
 
 @keyframes slide_vanish
   100%
     opacity 0
-    transform(translateX(100%))
+    transform translateX(100%)
 
 @keyframes slide_down
   100%
-    transform(translateY(100%))
+    transform translateY(100%)
 
 
 
 // --------------------------------
 // Main Container
-// TODO: Find box has a placeholder activated by javascript
 
 .content 
   margin-left $contentPad
@@ -206,6 +214,7 @@ animate_header("about")
 
 .search
   position relative
+  margin-top .16*$u
   font-size $u
   line-height 2.4em
   background-color #ddd
@@ -235,14 +244,58 @@ animate_header("about")
   font-weight 300
 
 .book-opts 
-  padding $u 0
+  padding $u .88*$u $u .5*$u
 
 .book-res
-  padding-left .5*$u
   font-weight 300
   color #888
 
 // TODO: Style book layout switcher
+.book-switch
+  float right
+  &:before, &:after
+    display inline-block
+    vertical-align top
+    font-family "FontAwesome"
+    font-size 1.2em
+  &:before
+    content "\f009"
+    padding-right .24em
+    color $switchOnColor
+  &:after
+    content "\f00b"
+    padding-left .24em
+    color $switchOffColor
+  &.aslist
+    &:before
+      color $switchOffColor
+    &:after
+      color $switchOnColor
+    .book-switch-btn:after
+      left 50%    
+
+.book-switch-btn
+  _width  = 1em
+  _height = .8em
+  position relative
+  display inline-block
+  width _width
+  height _height
+  &:before
+    _trayHeight = _height / 4
+    vertical_center _trayHeight
+    width _width
+    height _trayHeight
+    background-color #eee
+    border $px solid #ccc
+  &:after
+    vertical_center _height
+    left 0
+    width .5 * _width
+    height _height
+    background-color #ccc
+  &:hover:after
+    background-color #aaa
 
 // TODO: Style card
 
