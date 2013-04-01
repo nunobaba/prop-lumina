@@ -6,12 +6,13 @@
 # @author Thuan Hu <nunobaba@gmail.com>
 # 
 
-
 Session.setDefault "app.sections", 
   "discover"  : "Start at Rio"
   "services"  : "Services"
   "about"     : "About Us"
   "locations" : "Locations"
+
+Meteor.subscribe "programs"
 
 
 # --------------------------------
@@ -39,7 +40,7 @@ Handlebars.registerHelper "foreach", (ctx, opts) ->
 
 
 # --------------------------------
-# App View
+# App Template
 
 Template.app.preserve [".sub"]
 
@@ -54,7 +55,18 @@ Template.app.helpers
     (Session.get "app.sections")[Session.get "section"] ? ""
 
 
+# --------------------------------
+# Brochure Template
 
 Template.brochure.helpers
-  "discovering": -> "discover" is Session.get "section"
+  "discovering": ->  "discover" is Session.get "section"
+
+  "programs": -> Programs.find {}
+
+  "progCounter": -> (Programs.find {}).count()
+
+Template.brochure.events
+  "keyup .search-box": (e, tp) ->
+    act = if e.target.value.length > 1 then "add" else "remove"
+    (tp.find ".search-msg").classList[act] "ko"
 

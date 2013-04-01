@@ -18,7 +18,7 @@ $baseFontFamily = "Open Sans", Arial, sans-serif
 $px             = 1em / $baseFontSize
 $u              = 1.6em
 $hdrPadRight    = .56em + $u
-$contentPad     = 15 * $u
+$contentPad     = 13 * $u
 
 $linkColor      = #190756
 $linkColorHover = #4CAB99
@@ -36,6 +36,9 @@ html, body
   background-color $baseBgColor
   font-size $baseFontSize
   font-family $baseFontFamily
+
+::before, ::after 
+  content ""
 
 a
   color $linkColor
@@ -56,14 +59,14 @@ a
   visibility visible
   opacity 1
 
-.labs, .rabs
+.la, .ra
   position absolute
   top 0
 
-.labs
+.la
   left 0
 
-.rabs 
+.ra 
   right 0
 
 .container
@@ -72,7 +75,6 @@ a
 
 // --------------------------------
 // Header
-// TODO: Slide out selected tab label and collapse the menu.
 
 .hdr
   position fixed
@@ -194,24 +196,65 @@ animate_header("about")
 
 // --------------------------------
 // Main Container
+// TODO: Find box has a placeholder activated by javascript
 
 .content 
   margin-left $contentPad
   padding $u
+  padding-left $hdrPadRight
   min-height 100%
 
-.find
+.search
   position relative
-  background-color red
+  font-size $u
+  line-height 2.4em
+  background-color #ddd
+  &:before
+    content "\f002" 
+    float right
+    padding-right .5*$u
+    font-family "FontAwesome"
+    text-align right
 
-.find-box
-  @extend .labs
+.search-box
+  @extend .la
   z-index 2
+  padding 0 .8em
   width 100%
   height 100%
-  background-color transparent
+  border-width 0
+  background-color rgba(#fff, .64)
+  font inherit
+  &:focus
+    background-color rgba(#FEFF69, .64)
+    outline none
 
+.search-msg
+  position relative
+  padding 0 .36*$u
+  font-weight 300
 
-.find-msg
-  display inline-block
-  line-height 2.4em
+.book-opts 
+  padding $u 0
+
+.book-res
+  padding-left .5*$u
+  font-weight 300
+  color #888
+
+// TODO: Style book layout switcher
+
+// TODO: Style card
+
+// TODO: Multiple columnize cards
+// http://cssdeck.com/labs/css-only-pinterest-style-columns-layout
+// 
+// -moz-column-count: 3;
+// -moz-column-gap: 10px;
+// -moz-column-fill: auto;
+// -webkit-column-count: 3;
+// -webkit-column-gap: 10px;
+// -webkit-column-fill: auto;
+// column-count: 3;
+// column-gap: 15px;
+// column-fill: auto;

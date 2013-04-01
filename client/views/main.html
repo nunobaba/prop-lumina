@@ -40,9 +40,33 @@
 
 <template name="brochure">
   {{#if discovering}}
-    <div class="find">
-      <input class="find-box" name="find-box"/>
-      <span class="find-msg">Which program would you like to check?</span>
+    <div class="search">
+      <input class="search-box" tabindex="1"/>
+      <div class="search-msg">Which program would you like to check?</div>
+    </div>
+
+    <div class="book">
+      
+      <div class="book-opts">
+        <div class="book-switch">
+          <div class="book-switch-btn"></div>
+        </div>
+        <p class="book-res">{{progCounter}} programs available</p>
+      </div>
+
+      {{#each programs}}
+        <div class="card">
+          <div class="card-cover" style="background-image: url({{cover}})">
+            <div class="card-kind">
+              <div class="card-kind-frame"></div>
+              <div class="card-kind-ico" style="background-image: url({{kind}})"></div>
+            </div>
+          </div>
+          <h3 class="card-cat">{{category}}</h3>
+          <h2 class="card-title">{{title}}</h2>
+          <div class="card-brief">{{brief.short}}</div>
+        </div>
+      {{/each}}
     </div>
   {{/if}}
 </template>
