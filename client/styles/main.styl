@@ -14,16 +14,18 @@ $baseFontSize   = 16px
 $baseLineHeight = 1.36em
 $baseFontFamily = "Open Sans", Arial, sans-serif
 
-// Block dimensions
-$px             = 1em / $baseFontSize
-$u              = 1.6em
-$hdrPadRight    = .56em + $u
-$contentPad     = 13 * $u
-
 $linkColor      = #190756
 $linkColorHover = #4CAB99
 $switchOffColor = #ccc
 $switchOnColor  = #888
+
+// Block dimensions
+$px             = 1em / $baseFontSize
+$u              = 1.6em
+$hdrPadRight    = .56em + $u
+$headerWidth    = 13 * $u
+$contentWidth   = 80 - $headerWidth
+$borderRadius   = .28em
 
 // Mixins
 vertical_center(_height)
@@ -31,7 +33,7 @@ vertical_center(_height)
   top 50%
   margin-top -.5 * _height
 
-// Mixin to automate tab animation
+// Automate tab animation
 animate_header(tab)
   .fx-{tab}
     .hnav-it:not(.tab-{tab})
@@ -44,6 +46,15 @@ animate_header(tab)
       position relative
       animation slide_gt .8s
       animation-fill-mode forwards
+
+spy()
+  background-color rgba(red, .64)
+
+// Adjustement by media specificities
+// By default, layout_width < 1280px
+@media (min-width: 1280px)
+  $headerWidth  ?= 13 * $u
+  $contentWidth ?= 80 - $headerWidth
 
 
 // --------------------------------
@@ -60,7 +71,6 @@ html, body
   font-family $baseFontFamily
 
 ::before, ::after 
-  content ""
   box-sizing border-box
 
 a
@@ -82,14 +92,15 @@ a
   visibility visible
   opacity 1
 
-.la, .ra
+.la
+.ra
   position absolute
   top 0
 
 .la
   left 0
 
-.ra 
+.ra
   right 0
 
 .container
@@ -105,10 +116,10 @@ a
   top 0
   padding-top 2.8em
   padding-right $hdrPadRight
-  width $contentPad
+  width $headerWidth
   height 100%
-  background-color rgba(#111, .8)
-  color #fff
+  background-color rgba(#888, .04)
+  color #444
   text-align right
 
 .logo
@@ -152,13 +163,14 @@ a
   bottom 1.6*$u
   right $hdrPadRight
   overflow-x hidden
+  width 80%
 
 .hnav-it a
   @extend .ptr
   font-weight 300
   font-size 1.4em
   line-height $u
-  color #fff
+  color #444
   &:hover
     text-decoration none
     opacity .8
@@ -206,11 +218,14 @@ animate_header("about")
 // --------------------------------
 // Main Container
 
-.content 
-  margin-left $contentPad
+.content
+  margin-left $headerWidth
   padding $u
   padding-left $hdrPadRight
-  min-height 100%
+  width $contentWidth
+  height 100%
+  // overflow-x hidden
+  // overflow-y auto
 
 .search
   position relative
@@ -243,15 +258,14 @@ animate_header("about")
   padding 0 .36*$u
   font-weight 300
 
-.book-opts 
+.layout
   padding $u .88*$u $u .5*$u
 
-.book-res
+.results-count
   font-weight 300
   color #888
 
-// TODO: Style book layout switcher
-.book-switch
+.layout-switch
   float right
   &:before, &:after
     display inline-block
@@ -271,24 +285,28 @@ animate_header("about")
       color $switchOffColor
     &:after
       color $switchOnColor
-    .book-switch-btn:after
+    .layout-switch-btn:after
       left 50%    
 
-.book-switch-btn
+.layout-switch-btn
   _width  = 1em
   _height = .8em
   position relative
+  top -1*$px
   display inline-block
+  vertical-align middle
   width _width
   height _height
   &:before
     _trayHeight = _height / 4
+    content ""
     vertical_center _trayHeight
     width _width
     height _trayHeight
     background-color #eee
     border $px solid #ccc
   &:after
+    content ""
     vertical_center _height
     left 0
     width .5 * _width
@@ -297,17 +315,104 @@ animate_header("about")
   &:hover:after
     background-color #aaa
 
-// TODO: Style card
+.results
+  column-count 3
+  column-gap $u
 
-// TODO: Multiple columnize cards
-// http://cssdeck.com/labs/css-only-pinterest-style-columns-layout
-// 
-// -moz-column-count: 3;
-// -moz-column-gap: 10px;
-// -moz-column-fill: auto;
-// -webkit-column-count: 3;
-// -webkit-column-gap: 10px;
-// -webkit-column-fill: auto;
-// column-count: 3;
-// column-gap: 15px;
-// column-fill: auto;
+// TODO: Style card
+.card
+  position relative
+  display inline-block
+  margin-bottom $u
+  border-radius $borderRadius
+  box-shadow 0 $px 4*$px #888
+
+.card-cover
+  position relative
+  margin-bottom 1.2em
+  height 10.4em
+  background-position center center
+  border-radius $borderRadius $borderRadius 0 0
+
+.card-kind
+  _pinWidth    = 2.8em
+  _pinIcoWidth = _pinWidth * 0.64
+  position absolute
+  left 50%
+  bottom 0
+  margin-left -.5 * _pinWidth
+  margin-bottom -.5 * _pinWidth
+  width _pinWidth
+  height _pinWidth
+  &:before
+    content ""
+    @extend .la
+    width _pinWidth
+    height _pinWidth
+    border-radius .1*_pinWidth
+    transform rotate(45deg)
+  &:after
+    content ""
+    @extend .la
+    width 100%
+    height 100%
+    background-size 64%
+    background-position 50% 50%
+    background-repeat no-repeat
+    opacity .64
+
+.card-kind-tech
+  &:before
+    background-color #f80
+  &:after
+    background-position 48% 50%
+    background-size 48%
+    background-image url("/images/ico/computer-by-daniel-shannon.svg")
+
+.card-kind-edu
+  &:before
+    background-color #DDF75F
+  &:after
+    background-position 48% 36%
+    background-image url("/images/ico/edu-child-by-geo-neo.svg")
+
+.card-kind-mili
+  &:before
+    background-color #c80
+  &:after
+    background-position 48% 48%
+    background-size 72%
+    background-image url("/images/ico/military.svg")
+
+.card-kind-police
+  &:before
+    background-color #596C68
+  &:after
+    background-position 48% 48%
+    background-size 56%
+    background-image url("/images/ico/police-by-gareth-stranks.svg")
+
+.card-content
+  padding .88*$u
+  padding-bottom $u
+  line-height .64*$u
+  text-align center
+
+.card-cat
+  font-size .72em
+  text-transform uppercase
+  letter-spacing .16em
+  color #888
+
+.card-title
+  @extend .serif
+  padding-top .16*$u
+  padding-bottom .4*$u 
+  font-size 1.12em
+  line-height .8*$u
+
+.card-brief
+  font-size .88em
+  font-weight 300
+  line-height .88*$u
+

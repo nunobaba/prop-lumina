@@ -70,5 +70,7 @@ Template.brochure.events
     act = if e.target.value.length > 1 then "add" else "remove"
     (tp.find ".search-msg").classList[act] "ko"
 
-  "click .book-switch-btn": (e, tp) ->
-    (tp.find ".book-switch").classList.toggle "aslist"
+  "click .layout-switch-btn": (e, tp) ->
+    (tp.find ".layout-switch").classList.toggle "aslist"
+
+ 

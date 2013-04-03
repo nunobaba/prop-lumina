@@ -45,28 +45,26 @@
       <div class="search-msg">Which program would you like to check?</div>
     </div>
 
-    <div class="book">
-      
-      <div class="book-opts">
-        {{! Layout switcher }}
-        <div class="book-switch">
-          <div class="book-switch-btn"></div>
-        </div>
-        {{! Card result count }}
-        <p class="book-res">{{progCounter}} programs available</p>
+    <div class="layout">
+      {{! Layout switcher }}
+      <div class="layout-switch">
+        <div class="layout-switch-btn"></div>
       </div>
+      {{! Card result count }}
+      <p class="results-count">{{progCounter}} programs available</p>
+    </div>
 
+    <div class="results">
       {{#each programs}}
         <div class="card">
           <div class="card-cover" style="background-image: url({{cover}})">
-            <div class="card-kind">
-              <div class="card-kind-frame"></div>
-              <div class="card-kind-ico" style="background-image: url({{kind}})"></div>
-            </div>
+            <div class="card-kind card-kind-{{kind}}"></div>
           </div>
-          <h3 class="card-cat">{{category}}</h3>
-          <h2 class="card-title">{{title}}</h2>
-          <div class="card-brief">{{brief.short}}</div>
+          <div class="card-content">
+            <h3 class="card-cat">{{category}}</h3>
+            <h2 class="card-title">{{title}}</h2>
+            <div class="card-brief">{{brief.short}}</div>
+          </div>
         </div>
       {{/each}}
     </div>
