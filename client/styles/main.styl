@@ -6,6 +6,7 @@
 global-reset()
 @import "fonts"
 
+
 // --------------------------------
 // Variables
 
@@ -14,6 +15,7 @@ $baseFontSize   = 16px
 $baseLineHeight = 1.36em
 $baseFontFamily = "Open Sans", Arial, sans-serif
 
+$headerBgColor  = rgba(#757A7C, .04)
 $linkColor      = #190756
 $linkColorHover = #4CAB99
 $switchOffColor = #ccc
@@ -26,6 +28,10 @@ $hdrPadRight    = .56em + $u
 $headerWidth    = 13 * $u
 $contentWidth   = 80 - $headerWidth
 $borderRadius   = .28em
+
+// Card variables
+$pinWidth       = 2.8em
+$pinIcoWidth    = $pinWidth * 0.64
 
 // Mixins
 vertical_center(_height)
@@ -118,7 +124,7 @@ a
   padding-right $hdrPadRight
   width $headerWidth
   height 100%
-  background-color rgba(#888, .04)
+  background-color $headerBgColor 
   color #444
   text-align right
 
@@ -214,18 +220,25 @@ animate_header("about")
     transform translateY(100%)
 
 
-
 // --------------------------------
 // Main Container
 
 .content
+  position relative
   margin-left $headerWidth
-  padding $u
-  padding-left $hdrPadRight
-  width $contentWidth
   height 100%
-  // overflow-x hidden
-  // overflow-y auto
+  overflow hidden
+
+.cards
+  @extend .la
+  padding $u $hdrPadRight
+  width $contentWidth
+  background-color #fff
+  transition transform, 1s
+
+.to-review .cards
+  transform translateX($contentWidth)
+  opacity .16
 
 .search
   position relative
@@ -266,6 +279,7 @@ animate_header("about")
   color #888
 
 .layout-switch
+  @extend .ptr
   float right
   &:before, &:after
     display inline-block
@@ -315,41 +329,46 @@ animate_header("about")
   &:hover:after
     background-color #aaa
 
+// 
+// Search results panel
+// 
+
 .results
   column-count 3
   column-gap $u
 
-// TODO: Style card
+// FIXME: Tweak column width to reveal entire width of cards.
 .card
+  @extend .ptr
   position relative
   display inline-block
   margin-bottom $u
   border-radius $borderRadius
   box-shadow 0 $px 4*$px #888
+  &:hover
+    box-shadow 0 $px 8*$px #888
 
 .card-cover
   position relative
   margin-bottom 1.2em
-  height 10.4em
+  min-height 10.4em
   background-position center center
   border-radius $borderRadius $borderRadius 0 0
 
 .card-kind
-  _pinWidth    = 2.8em
-  _pinIcoWidth = _pinWidth * 0.64
   position absolute
   left 50%
   bottom 0
-  margin-left -.5 * _pinWidth
-  margin-bottom -.5 * _pinWidth
-  width _pinWidth
-  height _pinWidth
+  margin-left -.5 * $pinWidth
+  margin-bottom -.5 * $pinWidth
+  width $pinWidth
+  height $pinWidth
   &:before
     content ""
     @extend .la
-    width _pinWidth
-    height _pinWidth
-    border-radius .1*_pinWidth
+    width $pinWidth
+    height $pinWidth
+    border-radius .1*$pinWidth
     transform rotate(45deg)
   &:after
     content ""
@@ -415,4 +434,76 @@ animate_header("about")
   font-size .88em
   font-weight 300
   line-height .88*$u
+
+// 
+// Results laid out as list
+// 
+
+.results.aslist
+  padding-top $u
+  column-count 1
+
+  .card
+    display block
+    margin-bottom $u
+    height 4 * $u
+    border-radius 0
+    box-shadow none
+    &:hover
+      .card-kind:before
+        transform rotate(45deg) scale(1.2)
+        transition transform, .24s
+
+  .card-cover
+    float left
+    position relative
+    display inline-block
+    margin-right $u
+    width 4em
+    min-height 4em
+    background none !important
+    border-radius 0
+    spy()
+
+  .card-kind
+    bottom 0
+    margin-bottom .32 * $u
+
+  .card-content
+    // display inline-block
+    padding 0
+    text-align left
+
+  .card-cat
+    float right
+    width 24%
+    font-size .64em
+    letter-spacing 0
+    text-align right
+
+  .card-title
+    padding 0
+    width 64%
+    line-height .88*$u
+
+  .card-brief
+    display block
+    padding-top .4 * $u
+
+
+// --------------------------------
+// Card information panel
+
+.prog
+  @extend .la
+  width $contentWidth
+  height 100%
+  background-color $headerBgColor
+  &:before
+    content ""
+    @extend .la
+    width $px
+    height 100%
+    background linear-gradient(top, transparent 4%, rgba(#aaa,.32) 50%, transparent 96%)
+
 

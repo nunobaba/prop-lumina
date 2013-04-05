@@ -47,9 +47,13 @@ Template.app.preserve [".sub"]
 Template.app.helpers
   navTabs: Session.get "app.sections"
 
-  transiter: -> 
+  transitToSection: -> 
     sn = Session.get "section"
     if sn then "fx-#{sn}" else ""
+
+  transitToReview: ->
+    if Session.get "course.id" then "to-review" else ""
+
 
   sectionTitle: ->
     (Session.get "app.sections")[Session.get "section"] ? ""
@@ -58,8 +62,10 @@ Template.app.helpers
 # --------------------------------
 # Brochure Template
 
+Template.app.preserve [".cards"]
+
 Template.brochure.helpers
-  "discovering": ->  "discover" is Session.get "section"
+  "discovering": -> Session.equals "section", "discover"
 
   "programs": -> Programs.find {}
 
@@ -72,5 +78,9 @@ Template.brochure.events
 
   "click .layout-switch-btn": (e, tp) ->
     (tp.find ".layout-switch").classList.toggle "aslist"
+    (tp.find ".results").classList.toggle "aslist"
+
+  "click .card": (e, tp) ->
+    page "/discover/#{e.currentTarget.id}"
 
  

@@ -9,7 +9,7 @@
 
 
 <template name="app">
-  <div class="container {{transiter}}">
+  <div class="container {{transitToSection}} {{transitToReview}}">
     <header class="hdr">
       <div class="logo">
         <strong>Rio Salado</strong> College
@@ -32,6 +32,7 @@
     </header>
   
     <article class="content">
+      {{> review}}
       {{> brochure}}
     </article>
   </div>
@@ -39,6 +40,7 @@
 
 
 <template name="brochure">
+  <div class="cards">
   {{#if discovering}}
     <div class="search">
       <input class="search-box" tabindex="1"/>
@@ -56,7 +58,7 @@
 
     <div class="results">
       {{#each programs}}
-        <div class="card">
+        <div class="card" id="{{_id}}">
           <div class="card-cover" style="background-image: url({{cover}})">
             <div class="card-kind card-kind-{{kind}}"></div>
           </div>
@@ -69,5 +71,30 @@
       {{/each}}
     </div>
   {{/if}}
+  </div>
 </template>
 
+
+<template name="review">
+  <div class="prog">
+    {{#if card}}
+      <div class="prog-visu"></div>
+
+      <div class="prog-rvw">
+        <section class="prog-rvw-section">
+          <h3 class="prog-rvw-title">Program description</h3>
+          <div class="prog-rvw-content">{{brief.long}}</div>
+        </section>
+        <section class="prog-rvw-section">
+          <h3 class="prog-rvw-title">
+            <span class="prog-rvw-section-tab" id="prog-prereq">Pre-requisites</span>
+            <span class="prog-rvw-section-tab" id="prog-salary">Salary range</span>
+          </h3>
+          <div class="prog-rvw-content prog-prereq">
+            {{prerequisites}}
+          </div>
+        </section>
+      </div>
+    {{/if}}
+  </div>
+</template>
