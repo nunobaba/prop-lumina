@@ -3,8 +3,10 @@
 // @author Thuan Hu <nunobaba@gmail.com>
 // 
 
+// FIXME: Adjust the import of the nib library
+@import nib
+@import fonts
 global-reset()
-@import "fonts"
 
 
 // --------------------------------
@@ -234,10 +236,13 @@ animate_header("about")
   padding $u $hdrPadRight
   width $contentWidth
   background-color #fff
-  transition transform, 1s
+  opacity 1
+  transform translateX(0)
+  transition transform .64s
 
 .to-review .cards
   transform translateX($contentWidth)
+  transition transform .64s, opacity .4s ease .64s
   opacity .16
 
 .search
@@ -337,7 +342,6 @@ animate_header("about")
   column-count 3
   column-gap $u
 
-// FIXME: Tweak column width to reveal entire width of cards.
 .card
   @extend .ptr
   position relative

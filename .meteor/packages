@@ -7,5 +7,5 @@ autopublish
 insecure
 preserve-inputs
 coffeescript
-stylus-mixin
-page-js-ie-support
+stylus
+page

@@ -61,15 +61,16 @@ Template.app.helpers
 
 # --------------------------------
 # Brochure Template
+# TODO: Search lookup displayed after each keystroke.
 
-Template.app.preserve [".cards"]
+Template.brochure.preserve [".cards"]
 
 Template.brochure.helpers
-  "discovering": -> Session.equals "section", "discover"
+  discovering: -> Session.equals "section", "discover"
 
-  "programs": -> Programs.find {}
+  programs: -> Programs.find {}
 
-  "progCounter": -> (Programs.find {}).count()
+  progCounter: -> (Programs.find {}).count()
 
 Template.brochure.events
   "keyup .search-box": (e, tp) ->
@@ -83,4 +84,13 @@ Template.brochure.events
   "click .card": (e, tp) ->
     page "/discover/#{e.currentTarget.id}"
 
- 
+
+# --------------------------------
+# Brochure Template
+# TODO: Load selected card.
+
+Template.review.helpers
+  card: ->
+    # Programs.find _id: Session.get "course.id" 
+
+
