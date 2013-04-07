@@ -81,8 +81,35 @@ Template.brochure.events
     (tp.find ".layout-switch").classList.toggle "aslist"
     (tp.find ".results").classList.toggle "aslist"
 
-  "click .card": (e, tp) ->
+  "click .card-wrap": (e, tp) ->
     page "/discover/#{e.currentTarget.id}"
+
+Template.brochure.rendered = ->
+  cardEls = @findAll ".card"
+  Template.brochure._layMosaic cardEls unless not cardEls.length 
+
+Template.brochure._layMosaic = (els) ->
+  rowLength = 0
+  boxes = []
+
+  _.reduce els, (el0, el1, k) ->
+    box0 = top: el0.offsetTop, height: el0.offsetHeight
+    box1 = top: el1.offsetTop, height: el1.offsetHeight
+
+    # Add the first element only on the firs run.
+    if _.isEmpty boxes then boxes.push box0
+    boxes.push box1
+    
+    # Start adjusting position when the row differs.
+    if not rowLength and box0.top isnt box1.top then rowLength = k
+    if rowLength
+      b = boxes[k-rowLength] 
+      dh = b.top + b.height - box1.top
+      el1.style.cssText = "top:#{dh}px"
+      box1.top = dh + box1.top 
+      boxes[k] = box1
+
+    el1
 
 
 # --------------------------------
@@ -92,5 +119,4 @@ Template.brochure.events
 Template.review.helpers
   card: ->
     # Programs.find _id: Session.get "course.id" 
-
 

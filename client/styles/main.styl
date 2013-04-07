@@ -3,7 +3,6 @@
 // @author Thuan Hu <nunobaba@gmail.com>
 // 
 
-// FIXME: Adjust the import of the nib library
 @import nib
 @import fonts
 global-reset()
@@ -57,6 +56,9 @@ animate_header(tab)
 
 spy()
   background-color rgba(red, .64)
+
+hide()
+  display none
 
 // Adjustement by media specificities
 // By default, layout_width < 1280px
@@ -230,14 +232,16 @@ animate_header("about")
   margin-left $headerWidth
   height 100%
   overflow hidden
+  overflow-y auto
 
 .cards
   @extend .la
   padding $u $hdrPadRight
   width $contentWidth
+  height 100%
   background-color #fff
   opacity 1
-  transform translateX(0)
+  transform translateX(0) 
   transition transform .64s
 
 .to-review .cards
@@ -338,24 +342,34 @@ animate_header("about")
 // Search results panel
 // 
 
-.results
-  column-count 3
-  column-gap $u
+// .results
 
 .card
   @extend .ptr
   position relative
   display inline-block
-  margin-bottom $u
+  vertical-align top
+  padding-bottom $u
+
+.card-wrap
   border-radius $borderRadius
-  box-shadow 0 $px 4*$px #888
+  box-shadow 0 $px 4*$px rgba(0,0,0,.36)
+  text-align center
   &:hover
     box-shadow 0 $px 8*$px #888
+
+// TODO: Javascript enabled mosaic grid
+@media (min-width: 1280px)
+  .card
+    margin-right .0242 * $contentWidth
+    width .29 * $contentWidth
+    &:nth-child(3n)
+      margin-right 0
 
 .card-cover
   position relative
   margin-bottom 1.2em
-  min-height 10.4em
+  height 10.4em
   background-position center center
   border-radius $borderRadius $borderRadius 0 0
 
@@ -419,7 +433,6 @@ animate_header("about")
   padding .88*$u
   padding-bottom $u
   line-height .64*$u
-  text-align center
 
 .card-cat
   font-size .72em
@@ -435,9 +448,9 @@ animate_header("about")
   line-height .8*$u
 
 .card-brief
-  font-size .88em
+  font-size .96em
   font-weight 300
-  line-height .88*$u
+  line-height .88 * $u
 
 // 
 // Results laid out as list

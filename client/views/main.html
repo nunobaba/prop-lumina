@@ -58,7 +58,8 @@
 
     <div class="results">
       {{#each programs}}
-        <div class="card" id="{{_id}}">
+      <div class="card">
+        <div class="card-wrap" id="{{_id}}">
           <div class="card-cover" style="background-image: url({{cover}})">
             <div class="card-kind card-kind-{{kind}}"></div>
           </div>
@@ -68,6 +69,7 @@
             <div class="card-brief">{{brief.short}}</div>
           </div>
         </div>
+      </div>
       {{/each}}
     </div>
   {{/if}}
