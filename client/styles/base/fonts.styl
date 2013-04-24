@@ -1,0 +1,98 @@
+// 
+// FONT COMMONS
+// 
+
+// @import url("//netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css")
+
+_bUrl ?= "//themes.googleusercontent.com/static/fonts/"
+
+// Ugly mixin to load only necessary fonts.
+globalFontFamily(fam)
+  if fam is "FontAwesome"
+    @font-face
+      _bUrl = "//netdna.bootstrapcdn.com/font-awesome/3.0.2/font"
+      font-family 'FontAwesome'
+      src url(s('%s/fontawesome-webfont.eot?v=3.0.2', _bUrl))
+      src url(s('%s/fontawesome-webfont.eot?#iefix&v=3.0.2', _bUrl)) \
+            format('embedded-opentype'), \
+          url(s('%s/fontawesome-webfont.woff?v=3.0.2', _bUrl)) format('woff'), \
+          url(s('%s/fontawesome-webfont.ttf?v=3.0.2', _bUrl)) format('truetype')
+      font-weight normal
+      font-style normal
+
+
+  else if fam is "Habibi"
+    @font-face 
+      font-family 'Habibi'
+      font-style normal
+      font-weight 400
+      src local('Habibi'), \
+          local('Habibi-Regular'), \
+          url(s("%s/habibi/v2/o2aOr30JmDicxkyiXzSY5w.woff", _bUrl)) format('woff')
+
+
+  else if fam is "Merriweather"
+    // @font-face
+    //   font-family 'Merriweather'
+    //   font-style normal
+    //   font-weight 300
+    //   src local('Merriweather Light'), \
+    //       local('Merriweather-Light'), \
+    //       url(s("%s/merriweather/v4/ZvcMqxEwPfh2qDWBPxn6nmFp2sMiApZm5Dx7NpSTOZk.woff", _bUrl))\
+    //       format('woff')
+
+    @font-face
+      font-family 'Merriweather'
+      font-style normal
+      font-weight 400
+      src local('Merriweather'), url(s("%s/merriweather/v4/RFda8w1V0eDZheqfcyQ4EHhCUOGz7vYGh680lGh-uXM.woff", _bUrl)) format('woff')
+
+    // @font-face
+    //   font-family 'Merriweather'
+    //   font-style normal
+    //   font-weight 700
+    //   src local('Merriweather Bold'), local('Merriweather-Bold'), url(s("%s/merriweather/v4/ZvcMqxEwPfh2qDWBPxn6nnl4twXkwp3_u9ZoePkT564.woff", _bUrl)) format('woff')
+
+
+  else if fam is "Montserrat"
+    @font-face 
+      font-family 'Montserrat'
+      font-style normal
+      font-weight 700
+      src local('Montserrat-Bold'), \
+          url(s("%s/montserrat/v3/IQHow_FEYlDC4Gzy_m8fcgFhaRv2pGgT5Kf0An0s4MM.woff", _bUrl))\
+          format('woff')
+
+
+  else if fam is "Open Sans"
+    @font-face
+      font-family 'Open Sans'
+      font-style normal
+      font-weight 300
+      src local('Open Sans Light'), local('OpenSans-Light'), url(_bUrl + "opensans/v6/DXI1ORHCpsQm3Vp6mXoaTXhCUOGz7vYGh680lGh-uXM.woff") format('woff')
+
+    @font-face
+      font-family 'Open Sans'
+      font-style normal
+      font-weight 400
+      src local('Open Sans'), local('OpenSans'), url(_bUrl + "opensans/v6/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff") format('woff')
+
+    @font-face
+      font-family 'Open Sans'
+      font-style normal
+      font-weight 600
+      src local('Open Sans Semibold'), local('OpenSans-Semibold'), url(_bUrl + "opensans/v6/MTP_ySUJH_bn48VBG8sNSnhCUOGz7vYGh680lGh-uXM.woff") format('woff')
+
+  else if fam is "Open Sans Condensed"
+    @font-face
+      font-family 'Open Sans Condensed'
+      font-style normal
+      font-weight 700
+      src local('Open Sans Condensed Bold'), local('OpenSans-CondensedBold'), url(_bUrl + "opensanscondensed/v6/gk5FxslNkTTHtojXrkp-xONSK5BxN3NFS4EJkViHIqo.woff") format('woff')
+
+    @font-face
+      font-family 'Open Sans Condensed'
+      font-style normal
+      font-weight 300
+      src local('Open Sans Cond Light'), local('OpenSans-CondensedLight'), url(_bUrl + "opensanscondensed/v6/gk5FxslNkTTHtojXrkp-xF1YPouZEKgzpqZW9wN-3Ek.woff") format('woff')
+

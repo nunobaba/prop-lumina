@@ -1,0 +1,57 @@
+// 
+// COMMON MIXINS
+// 
+
+spreadAccrossPage()
+  &:before
+    content ""
+    pos absolute, left 50%, top 0, z-index -1
+    margin-left -128em
+    width 256em
+    height 100%
+
+centerXY( w, h=0, xy='xy', z=8 )
+  position fixed
+  left (xy is 'x' ? 50% : auto )
+  top (xy is 'y' ? 50% : auto )
+  z-index z
+  margin-left (-.5 * w) unless xy is not 'x' 
+  margin-top (-.5 * h) unless xy is not 'y' 
+  box width w, height h
+
+centerX( w, h, xy='x', z=8 )
+  centerXY w, h, xy 
+
+centerY( w, h, xy='y', z=8 )
+  centerXY w, h, xy 
+
+pos( kind, props... )
+  position kind
+  for prop in props
+    {prop[0]} prop[1]
+
+box( props... )
+  for prop in props
+    {prop[0]} prop[1]  
+
+fount( props... )
+  for prop in props
+    font-{prop[0]} prop[1]  
+
+pad( l, t = l, r = t, b = t )
+  for prop in (left l) (top t) (right r) (bottom b)
+    padding-{prop[0]} prop[1]
+
+spy()
+  background-color rgba(255,0,0,.4)
+
+kill()
+  display none
+
+// 
+// UTILITARY CLASS FOR CLASS EXTENSIONS
+// 
+
+.ptr
+  cursor pointer
+

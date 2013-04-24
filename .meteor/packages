@@ -4,8 +4,9 @@
 # but you can also edit it by hand.
 
 autopublish
-insecure
-preserve-inputs
 coffeescript
-stylus
+d3
+insecure
 page
+preserve-inputs
+stylus

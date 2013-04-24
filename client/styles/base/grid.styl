@@ -1,0 +1,37 @@
+// 
+// MULTI-COLUMNS GRID
+// The main tactic is to leverage the box-sizing property to put the gutter "inside"
+// the column and not as CSS frameworks do, as a margin outside of the column.
+// 
+
+fsize         = 16
+dp            = 1em / fsize
+widthTotal   ?= 100%
+colTotal     ?= 12
+colWidth     ?= widthTotal / colTotal
+gutWidth     ?= 20 * dp
+
+getSpan( c = 1 )
+  c * colWidth
+
+// This mixin is to be used in the columns container. 
+// The negative margin-left is here to compensate for the extra 
+// gutter of the last column of the grid.
+rowSpan( c = colTotal )
+  @extend .cf
+  margin-left -1 * gutWidth
+  // overflow hidden
+
+// Mixin defining a single column or column span.
+colSpan( c = 1 )
+  float left
+  padding-left gutWidth
+  width c * colWidth
+
+// Make sure the fontsize is set on the body.
+// This could be overriden later.
+body
+  font-weight 400
+  font-size unit( fsize, em )
+  line-height 1
+

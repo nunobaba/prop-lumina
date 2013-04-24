@@ -3,524 +3,253 @@
 // @author Thuan Hu <nunobaba@gmail.com>
 // 
 
-@import nib
-@import fonts
-global-reset()
+@import "nib"
+@import "base/main"
 
+globalFontFamily( "Open Sans" )
+globalFontFamily( "Open Sans Condensed" )
 
-// --------------------------------
-// Variables
+//
+// VARIABLES
+// 
 
-$baseBgColor    = #fff
-$baseFontSize   = 16px
-$baseLineHeight = 1.36em
-$baseFontFamily = "Open Sans", Arial, sans-serif
+baseWidth   = 96%
+baseBgColor = rgb(239,239,239)
+baseFgColor = rgb(51,51,51)
 
-$headerBgColor  = rgba(#757A7C, .04)
-$linkColor      = #190756
-$linkColorHover = #4CAB99
-$switchOffColor = #ccc
-$switchOnColor  = #888
+indigo      = #003b9b
 
-// Block dimensions
-$px             = 1em / $baseFontSize
-$u              = 1.6em
-$hdrPadRight    = .56em + $u
-$headerWidth    = 13 * $u
-$contentWidth   = 80 - $headerWidth
-$borderRadius   = .28em
+// 
+// COMMONS
+// 
 
-// Card variables
-$pinWidth       = 2.8em
-$pinIcoWidth    = $pinWidth * 0.64
-
-// Mixins
-vertical_center(_height)
-  position absolute
-  top 50%
-  margin-top -.5 * _height
-
-// Automate tab animation
-animate_header(tab)
-  .fx-{tab}
-    .hnav-it:not(.tab-{tab})
-      animation slide_down .8s
-      animation-fill-mode forwards
-      animation-delay .16s
-    .tab-{tab} ~ .hnav-it
-      animation none
-    .tab-{tab}
-      position relative
-      animation slide_gt .8s
-      animation-fill-mode forwards
-
-spy()
-  background-color rgba(red, .64)
-
-hide()
-  display none
-
-// Adjustement by media specificities
-// By default, layout_width < 1280px
-@media (min-width: 1280px)
-  $headerWidth  ?= 13 * $u
-  $contentWidth ?= 80 - $headerWidth
-
-
-// --------------------------------
-// Commons
-
-*
-  box-sizing border-box
-
-html, body
-  width 100%
+.h100
   height 100%
-  background-color $baseBgColor
-  font-size $baseFontSize
-  font-family $baseFontFamily
 
-::before, ::after 
-  box-sizing border-box
+.opensans
+  font-family "Open Sans", arial, sans-serif
 
-a
-  color $linkColor
-  text-decoration none
+.opennarrow
+  font-family "Open Sans Condensed", arial, sans-serif
 
-.ptr
-  cursor pointer
-
-.serif
-  font-family "Merriweather", Georgia, sans-serif
-  line-height 1.28em
-
-.ko
-  visibility hidden
-  opacity 0
+.ico
+  font-family "FontAwesome"
 
 .ok
   visibility visible
   opacity 1
 
-.la
-.ra
-  position absolute
-  top 0
+a
+  text-decoration none
 
-.la
-  left 0
+// 
+// GRID STRUCTURE
+// 
 
-.ra
-  right 0
+html, body
+  @extend .h100
+  @extend .opensans
+  font-weight 300
+  background-color baseBgColor
+  overflow-x hidden
 
 .container
-  height 100%
+  @extend .h100
+  margin 0 auto
+  width baseWidth
+
+.container-wrap
+.content-wrap
+.cards
+  rowSpan()
+
+.container-wrap
+  @extend .h100
 
 
-// --------------------------------
+// 
 // Header
-
-.hdr
-  position fixed
-  left 0
-  top 0
-  padding-top 2.8em
-  padding-right $hdrPadRight
-  width $headerWidth
-  height 100%
-  background-color $headerBgColor 
-  color #444
-  text-align right
+// 
 
 .logo
-  @extend .serif
-  font-weight 700
-  font-size 1.16 * $u
-  strong
-    display block
-
-.sub
   position relative
   display inline-block
-  margin-top 1.28em
-  max-width 80%
-  overflow-x hidden
-  font-size 1.28em
+  padding-top 4em
+  width 6.4em
+  height 4em
+  overflow hidden
+  color indigo
   &:before
-    content ""
-    position absolute
-    right 0
-    top 0
-    margin-top -.64em
-    width 2.4em
-    max-height 0
-    border-top $px solid #aaa
+    @extend .ico
+    pos absolute, left (gutWidth/8), top 0
+    content "\f0ac"
+    font-size 4em
 
-.sub-motto
-  @extend .serif
 
-// This div block is hidden by default and transform-property
-// performs better than transiting by position-absolute.
-.sub-section
-  position absolute
-  right 0
-  top 0
-  font-weight 300
-  transform translateX(100%)
+// // This div block is hidden by default and transform-property
+// // performs better than transiting by position-absolute.
+// .sub-section
 
 .hnav
-  position absolute
-  bottom 1.6*$u
-  right $hdrPadRight
-  overflow-x hidden
-  width 80%
+  margin-top .8em
 
 .hnav-it a
-  @extend .ptr
-  font-weight 300
-  font-size 1.4em
-  line-height $u
-  color #444
-  &:hover
-    text-decoration none
-    opacity .8
+  padding .4em 0
+  font-weight 700
+  line-height 1.44
+  color darken(baseFgColor, 24)
 
-// --------------------------------
-// Animations
+// 
+// Content panel
+// 
 
-[class*="fx"]
-  .sub-motto
-    animation slide_gt .8s
-    animation-fill-mode forwards
-  .sub-section
-    animation slide_lt .8s
-    animation-fill-mode forwards
-    animation-delay .16s
-
-animate_header("discover")
-
-animate_header("about")
-
-
-
-
-@keyframes slide_gt
-  100%
-    opacity 0
-    transform translateX(100%)
-
-@keyframes slide_lt
-  100%
-    opacity 1
-    transform translateX(0)
-
-@keyframes slide_vanish
-  100%
-    opacity 0
-    transform translateX(100%)
-
-@keyframes slide_down
-  100%
-    transform translateY(100%)
-
-
-// --------------------------------
-// Main Container
-
-.content
+.content 
   position relative
-  margin-left $headerWidth
-  height 100%
-  overflow hidden
-  overflow-y auto
-
-.cards
-  @extend .la
-  padding $u $hdrPadRight
-  width $contentWidth
-  height 100%
-  background-color #fff
-  opacity 1
-  transform translateX(0) 
-  transition transform .64s
-
-.to-review .cards
-  transform translateX($contentWidth)
-  transition transform .64s, opacity .4s ease .64s
-  opacity .16
-
-.search
-  position relative
-  margin-top .16*$u
-  font-size $u
-  line-height 2.4em
-  background-color #ddd
-  &:before
-    content "\f002" 
-    float right
-    padding-right .5*$u
-    font-family "FontAwesome"
-    text-align right
-
-.search-box
-  @extend .la
-  z-index 2
-  padding 0 .8em
   width 100%
   height 100%
-  border-width 0
-  background-color rgba(#fff, .64)
-  font inherit
-  &:focus
-    background-color rgba(#FEFF69, .64)
-    outline none
 
-.search-msg
-  position relative
-  padding 0 .36*$u
+.search h2
+  color indigo
   font-weight 300
+  font-size 3.2em
+  strong
+    display block
+    font-weight 700
 
-.layout
-  padding $u .88*$u $u .5*$u
-
-.results-count
-  font-weight 300
-  color #888
-
-.layout-switch
-  @extend .ptr
-  float right
-  &:before, &:after
-    display inline-block
-    vertical-align top
-    font-family "FontAwesome"
-    font-size 1.2em
-  &:before
-    content "\f009"
-    padding-right .24em
-    color $switchOnColor
-  &:after
-    content "\f00b"
-    padding-left .24em
-    color $switchOffColor
-  &.aslist
-    &:before
-      color $switchOffColor
-    &:after
-      color $switchOnColor
-    .layout-switch-btn:after
-      left 50%    
-
-.layout-switch-btn
-  _width  = 1em
-  _height = .8em
+.search-form
   position relative
-  top -1*$px
-  display inline-block
-  vertical-align middle
-  width _width
-  height _height
-  &:before
-    _trayHeight = _height / 4
-    content ""
-    vertical_center _trayHeight
-    width _width
-    height _trayHeight
-    background-color #eee
-    border $px solid #ccc
-  &:after
-    content ""
-    vertical_center _height
-    left 0
-    width .5 * _width
-    height _height
-    background-color #ccc
-  &:hover:after
-    background-color #aaa
+  margin-top .64em
+  width 84%
 
-// 
-// Search results panel
-// 
-
-// .results
-
-.card
-  @extend .ptr
-  position relative
+// The underlayer of .search-box to simulate the placeholder attribute.
+.search-label
+.search-input
+  @extend .opensans
   display inline-block
   vertical-align top
-  padding-bottom $u
+  padding .4em .56em
+  width 100%
+  font-size 1.6em
+  font-weight 300
+  line-height 1
+  letter-spacing -.02em
+  color indigo
+
+.search-input
+  pos absolute, left 0, top 0, z-index 4
+  width 100%
+  background-color transparent
+  border-width 0
+  outline 0
+
+.search-label
+  position relative
+  line-height 1.28em
+  border-bottom dp solid rgba(indigo, .24)
+  &.ko
+    color rgba(indigo, 0)
+  &:before
+  &:after
+    content ""
+    pos absolute, bottom 0
+    width .64 * dp
+    height 40%
+    background-color rgba(indigo, .24)
+  &:before
+    left 0
+  &:after
+    right 0
+
+.search-label-ico
+  float right
+  &:before
+    @extend .ico
+    content "\f002"
+    font-size 1em
+    color rgba(indigo, .24)
+
+.review
+  opacity 0
+  visibility hidden
+
+.card
+  padding-top 1em
+  height 14em
 
 .card-wrap
-  border-radius $borderRadius
-  box-shadow 0 $px 4*$px rgba(0,0,0,.36)
-  text-align center
-  &:hover
-    box-shadow 0 $px 8*$px #888
-
-// TODO: Javascript enabled mosaic grid
-@media (min-width: 1280px)
-  .card
-    margin-right .0242 * $contentWidth
-    width .29 * $contentWidth
-    &:nth-child(3n)
-      margin-right 0
-
-.card-cover
-  position relative
-  margin-bottom 1.2em
-  height 10.4em
-  background-position center center
-  border-radius $borderRadius $borderRadius 0 0
-
-.card-kind
-  position absolute
-  left 50%
-  bottom 0
-  margin-left -.5 * $pinWidth
-  margin-bottom -.5 * $pinWidth
-  width $pinWidth
-  height $pinWidth
-  &:before
-    content ""
-    @extend .la
-    width $pinWidth
-    height $pinWidth
-    border-radius .1*$pinWidth
-    transform rotate(45deg)
-  &:after
-    content ""
-    @extend .la
-    width 100%
-    height 100%
-    background-size 64%
-    background-position 50% 50%
-    background-repeat no-repeat
-    opacity .64
-
-.card-kind-tech
-  &:before
-    background-color #f80
-  &:after
-    background-position 48% 50%
-    background-size 48%
-    background-image url("/images/ico/computer-by-daniel-shannon.svg")
-
-.card-kind-edu
-  &:before
-    background-color #DDF75F
-  &:after
-    background-position 48% 36%
-    background-image url("/images/ico/edu-child-by-geo-neo.svg")
-
-.card-kind-mili
-  &:before
-    background-color #c80
-  &:after
-    background-position 48% 48%
-    background-size 72%
-    background-image url("/images/ico/military.svg")
-
-.card-kind-police
-  &:before
-    background-color #596C68
-  &:after
-    background-position 48% 48%
-    background-size 56%
-    background-image url("/images/ico/police-by-gareth-stranks.svg")
-
-.card-content
-  padding .88*$u
-  padding-bottom $u
-  line-height .64*$u
-
-.card-cat
-  font-size .72em
-  text-transform uppercase
-  letter-spacing .16em
-  color #888
+  @extend .ptr
+  height 100%
+  padding gutWidth
+  spy()
 
 .card-title
-  @extend .serif
-  padding-top .16*$u
-  padding-bottom .4*$u 
-  font-size 1.12em
-  line-height .8*$u
-
-.card-brief
-  font-size .96em
   font-weight 300
-  line-height .88 * $u
+  line-height 1.32
+
+
+// Governs the animation to the cards panel.
+.to-review 
+  .catalog
+    position absolute
+    left getSpan(10)
+    transition left, .8s
+
+  .search-wrap
+    left getSpan(12)
+    transition left, .8s
+
+  .review
+    opacity 1
+    visibility visible
+    transition all, .8s
+    transition-delay .4s
+
 
 // 
-// Results laid out as list
+// MEDIA QUERIES
+// Breakpoints: [320 | 720 | 960* | 1200]
+// Here layouts are for small or bigger screens only.
 // 
 
-.results.aslist
-  padding-top $u
-  column-count 1
+// 320px+ phone : 1 columns
+@media screen and (min-width: 20em)
+  .hdr
+  .content
+  .search
+  .cards
+    colSpan(12)
 
-  .card
-    display block
-    margin-bottom $u
-    height 4 * $u
-    border-radius 0
-    box-shadow none
-    &:hover
-      .card-kind:before
-        transform rotate(45deg) scale(1.2)
-        transition transform, .24s
+  .card 
+    colSpan(6)
 
-  .card-cover
-    float left
-    position relative
-    display inline-block
-    margin-right $u
-    width 4em
-    min-height 4em
-    background none !important
-    border-radius 0
-    spy()
+// 960px+ tablet : Multi column
+@media screen and (min-width: 64em)
+  contentColSpan ?= 10
+  headerColSpan  ?= 2
 
-  .card-kind
-    bottom 0
-    margin-bottom .32 * $u
-
-  .card-content
-    // display inline-block
-    padding 0
-    text-align left
-
-  .card-cat
-    float right
-    width 24%
-    font-size .64em
-    letter-spacing 0
-    text-align right
-
-  .card-title
-    padding 0
-    width 64%
-    line-height .88*$u
-
-  .card-brief
-    display block
-    padding-top .4 * $u
-
-
-// --------------------------------
-// Card information panel
-
-.prog
-  @extend .la
-  width $contentWidth
-  height 100%
-  background-color $headerBgColor
-  &:before
-    content ""
-    @extend .la
-    width $px
+  .hdr
+    colSpan(headerColSpan)
     height 100%
-    background linear-gradient(top, transparent 4%, rgba(#aaa,.32) 50%, transparent 96%)
 
+  .hdr-wrap
+    position fixed
+    margin-top 16em
+    width (baseWidth * (headerColSpan / colTotal)) - 8%
 
+  .content
+    colSpan(contentColSpan)
+
+  .content-wrap
+    height 100%
+
+  .search
+  .cards
+    colSpan(6)
+
+  .search 
+    height 100%
+
+  .search-wrap
+    position fixed
+    margin-top 16em
+    width (baseWidth * (contentColSpan / 2 / colTotal)) - 2.4%

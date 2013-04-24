@@ -5,6 +5,10 @@
 # to prospective students to community colleges.
 # @author Thuan Hu <nunobaba@gmail.com>
 # 
+# Include more information design
+# https://www.weylandindustries.com/img/page/investor/WeylandInvestInYourFuture.jpg
+# http://m.careeronestop.org/SalaryFinder/?soccode=151132&location=&searchmode=&keyword=software+engineer&ratetype=annual
+# 
 
 Session.setDefault "app.sections", 
   "discover"  : "Start at Rio"
@@ -42,7 +46,7 @@ Handlebars.registerHelper "foreach", (ctx, opts) ->
 # --------------------------------
 # App Template
 
-Template.app.preserve [".sub"]
+Template.app.preserve [".sub", ".review", ".catalog"]
 
 Template.app.helpers
   navTabs: Session.get "app.sections"
@@ -54,14 +58,13 @@ Template.app.helpers
   transitToReview: ->
     if Session.get "course.id" then "to-review" else ""
 
-
   sectionTitle: ->
-    (Session.get "app.sections")[Session.get "section"] ? ""
+    # (Session.get "app.sections")[Session.get "section"] ? ""
 
 
 # --------------------------------
 # Brochure Template
-# TODO: Search lookup displayed after each keystroke.
+# TODO: @ Search lookup displayed after each keystroke.
 
 Template.brochure.preserve [".cards"]
 
@@ -70,16 +73,14 @@ Template.brochure.helpers
 
   programs: -> Programs.find {}
 
+  programCount: -> (Programs.find {}).count()
+
   progCounter: -> (Programs.find {}).count()
 
 Template.brochure.events
-  "keyup .search-box": (e, tp) ->
-    act = if e.target.value.length > 1 then "add" else "remove"
-    (tp.find ".search-msg").classList[act] "ko"
-
-  "click .layout-switch-btn": (e, tp) ->
-    (tp.find ".layout-switch").classList.toggle "aslist"
-    (tp.find ".results").classList.toggle "aslist"
+  "keyup .search-input": (e, tp) ->
+    act = if e.target.value.length > 0 then "add" else "remove"
+    (tp.find ".search-label").classList[act] "ko"
 
   "click .card-wrap": (e, tp) ->
     page "/discover/#{e.currentTarget.id}"
@@ -91,24 +92,24 @@ Template.brochure.rendered = ->
 Template.brochure._layMosaic = (els) ->
   rowLength = 0
   boxes = []
-
   _.reduce els, (el0, el1, k) ->
     box0 = top: el0.offsetTop, height: el0.offsetHeight
     box1 = top: el1.offsetTop, height: el1.offsetHeight
-
     # Add the first element only on the firs run.
     if _.isEmpty boxes then boxes.push box0
     boxes.push box1
-    
     # Start adjusting position when the row differs.
-    if not rowLength and box0.top isnt box1.top then rowLength = k
+    if not rowLength and box0.top isnt box1.top 
+      rowLength = k
     if rowLength
       b = boxes[k-rowLength] 
       dh = b.top + b.height - box1.top
-      el1.style.cssText = "top:#{dh}px"
-      box1.top = dh + box1.top 
-      boxes[k] = box1
-
+      # No need to treat elements that are already stuck.
+      if dh
+        el1.style.cssText = "top:#{dh}px"
+        box1.top = dh + box1.top 
+        boxes[k] = box1
+    # Return dom element to accumulator.
     el1
 
 
@@ -117,6 +118,14 @@ Template.brochure._layMosaic = (els) ->
 # TODO: Load selected card.
 
 Template.review.helpers
-  card: ->
-    # Programs.find _id: Session.get "course.id" 
+  card: -> Session.get "course.id" 
+
+  cardData: -> Programs.findOne _id: Session.get "course.id"
+
+Template.review.events
+  "click .prog-rvw-content": (e, tp) ->
+    e.currentTarget.classList.toggle "full"
+
+
+
 

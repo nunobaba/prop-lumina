@@ -2,7 +2,6 @@
   <title>Lumina</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-
 <body>
   {{> app}}
 </body>
@@ -10,53 +9,56 @@
 
 <template name="app">
   <div class="container {{transitToSection}} {{transitToReview}}">
-    <header class="hdr">
-      <div class="logo">
-        <strong>Rio Salado</strong> College
-      </div>
-      <div class="sub">
-        <h2 class="sub-motto">
-          Setting the standard for innovation inhigher education since 1978
-        </h2>
-        <div class="sub-section">{{sectionTitle}}</div>
-      </div>
-      <nav class="hnav">
-        <ul>
-          {{#foreach navTabs}}
-          <li class="hnav-it tab-{{this.key}}">
-            <a href="/{{this.key}}">{{this.val}}</a>
-          </li>
-          {{/foreach}}
-        </ul>
-      </nav>
-    </header>
-  
-    <article class="content">
-      {{> review}}
-      {{> brochure}}
-    </article>
+    <div class="container-wrap">
+
+      <header class="hdr">
+        <div class="hdr-wrap">
+          <div class="logo">
+            <strong>Rio Salado</strong> College
+          </div>
+          <div class="sub">
+            <div class="sub-section">{{sectionTitle}}</div>
+          </div>
+          <nav class="hnav">
+            <ul>
+              {{#foreach navTabs}}
+              <li class="hnav-it tab-{{this.key}}">
+                <a href="/{{this.key}}">{{this.val}}</a>
+              </li>
+              {{/foreach}}
+            </ul>
+          </nav>
+        </div>
+      </header>
+    
+      <section class="content catalog">
+        {{> brochure}}
+      </section>
+      <section class="content review">
+        {{> review}}
+      </section>
+    </div>
   </div>
 </template>
 
 
 <template name="brochure">
-  <div class="cards">
   {{#if discovering}}
+  <div class="content-wrap">
+
     <div class="search">
-      <input class="search-box" tabindex="1"/>
-      <div class="search-msg">Which program would you like to check?</div>
-    </div>
-
-    <div class="layout">
-      {{! Layout switcher }}
-      <div class="layout-switch">
-        <div class="layout-switch-btn"></div>
+      <div class="search-wrap">
+        <h2><strong>Over {{programCount}}</strong>programs available</h2>
+        <div class="search-form">
+          <input class="search-input" tabindex="1"/>
+          <label class="search-label">
+            <span class="search-label-ico"></span> Find yours&hellip;
+          </label>
+        </div>
       </div>
-      {{! Card result count }}
-      <p class="results-count">{{progCounter}} programs available</p>
     </div>
 
-    <div class="results">
+    <div class="cards">
       {{#each programs}}
       <div class="card">
         <div class="card-wrap" id="{{_id}}">
@@ -64,39 +66,33 @@
             <div class="card-kind card-kind-{{kind}}"></div>
           </div>
           <div class="card-content">
-            <h3 class="card-cat">{{category}}</h3>
             <h2 class="card-title">{{title}}</h2>
-            <div class="card-brief">{{brief.short}}</div>
           </div>
         </div>
       </div>
       {{/each}}
     </div>
-  {{/if}}
   </div>
+  {{/if}}
 </template>
 
 
 <template name="review">
-  <div class="prog">
+  <div class="review-wrap">
     {{#if card}}
-      <div class="prog-visu"></div>
-
-      <div class="prog-rvw">
-        <section class="prog-rvw-section">
-          <h3 class="prog-rvw-title">Program description</h3>
-          <div class="prog-rvw-content">{{brief.long}}</div>
-        </section>
-        <section class="prog-rvw-section">
-          <h3 class="prog-rvw-title">
-            <span class="prog-rvw-section-tab" id="prog-prereq">Pre-requisites</span>
-            <span class="prog-rvw-section-tab" id="prog-salary">Salary range</span>
-          </h3>
-          <div class="prog-rvw-content prog-prereq">
-            {{prerequisites}}
-          </div>
-        </section>
+      {{#with cardData}}
+      <div class="prog-desc">
+        <h2 class="prog-title">{{title}}</h2>
+        <div class="prog-brief">{{brief.long}}</div>
       </div>
+
+      <div class="prog-data">
+        <div class="prog-content">{{brief.long}}</div>
+      </div>
+      {{/with}}
     {{/if}}
   </div>
 </template>
+
+
+
