@@ -20,11 +20,12 @@ getSpan( c = 1 )
 rowSpan( c = colTotal )
   @extend .cf
   margin-left -1 * gutWidth
-  // overflow hidden
+  position relative
 
 // Mixin defining a single column or column span.
 colSpan( c = 1 )
   float left
+  position relative
   padding-left gutWidth
   width c * colWidth
 

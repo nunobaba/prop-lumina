@@ -2,12 +2,16 @@
 // COLLEGE COURSE ORIENTATION HELPER FOR LUMINA
 // @author Thuan Hu <nunobaba@gmail.com>
 // 
+// TODO: Grid structure for review panel.
+// TODO: Review first column.
+// TODO: Grid 2-col for right col.
+// 
 
 @import "nib"
 @import "base/main"
 
-globalFontFamily( "Open Sans" )
-globalFontFamily( "Open Sans Condensed" )
+globalFontFamily("Open Sans")
+globalFontFamily("Open Sans Condensed")
 
 //
 // VARIABLES
@@ -23,9 +27,6 @@ indigo      = #003b9b
 // COMMONS
 // 
 
-.h100
-  height 100%
-
 .opensans
   font-family "Open Sans", arial, sans-serif
 
@@ -38,6 +39,9 @@ indigo      = #003b9b
 .ok
   visibility visible
   opacity 1
+
+.h100
+  height 100%
 
 a
   text-decoration none
@@ -59,12 +63,10 @@ html, body
   width baseWidth
 
 .container-wrap
-.content-wrap
-.cards
-  rowSpan()
-
-.container-wrap
   @extend .h100
+
+.content-wrap
+  rowSpan()
 
 
 // 
@@ -168,10 +170,6 @@ html, body
     font-size 1em
     color rgba(indigo, .24)
 
-.review
-  opacity 0
-  visibility hidden
-
 .card
   padding-top 1em
   height 14em
@@ -186,23 +184,59 @@ html, body
   font-weight 300
   line-height 1.32
 
+// 
+// Review Panel
+// 
+
+.review
+  opacity 0
+  visibility hidden
 
 // Governs the animation to the cards panel.
-.to-review 
-  .catalog
+.to-review
+  .finder
     position absolute
-    left getSpan(10)
-    transition left, .8s
-
-  .search-wrap
-    left getSpan(12)
-    transition left, .8s
-
+    transform translateX(getSpan(13))
+    transition transform, .8s
   .review
-    opacity 1
     visibility visible
-    transition all, .8s
-    transition-delay .4s
+    opacity 1
+    transition all .4s ease .56s
+
+.prog-desc-wrap
+  line-height 1.36
+  color indigo
+
+.prog-title
+  position relative
+  display block
+  height 20em
+  margin-bottom .72em
+  h2
+    @extend .search h2
+    pos absolute, bottom 0
+    font-weight 700
+    line-height 1.12
+    letter-spacing -.024em
+
+.prog-category
+  font-size .88em
+  font-weight 700
+  text-transform uppercase
+  letter-spacing .04em
+
+.prog-brief
+  font-size 1.2em
+
+.prog-fact
+  colSpan(6)
+
+.prog-fact-title
+  @extend .opennarrow
+  font-weight 300
+  text-transform uppercase
+  letter-spacing .08em
+
 
 
 // 
@@ -217,6 +251,8 @@ html, body
   .content
   .search
   .cards
+  .prog-desc
+  .prog-facts
     colSpan(12)
 
   .card 
@@ -244,12 +280,22 @@ html, body
 
   .search
   .cards
+  .prog-desc
+  .prog-facts
     colSpan(6)
 
   .search 
+  .prog-desc
     height 100%
 
   .search-wrap
+  .prog-desc-wrap
     position fixed
-    margin-top 16em
     width (baseWidth * (contentColSpan / 2 / colTotal)) - 2.4%
+    height 100%
+
+  .search-wrap
+    padding-top 16em
+
+  .prog-fact
+    spy()

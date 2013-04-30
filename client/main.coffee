@@ -46,7 +46,7 @@ Handlebars.registerHelper "foreach", (ctx, opts) ->
 # --------------------------------
 # App Template
 
-Template.app.preserve [".sub", ".review", ".catalog"]
+Template.app.preserve [".finder", ".review"]
 
 Template.app.helpers
   navTabs: Session.get "app.sections"

@@ -9,7 +9,7 @@
 
 <template name="app">
   <div class="container {{transitToSection}} {{transitToReview}}">
-    <div class="container-wrap">
+    <div class="container-wrap gr">
 
       <header class="hdr">
         <div class="hdr-wrap">
@@ -31,12 +31,14 @@
         </div>
       </header>
     
-      <section class="content catalog">
-        {{> brochure}}
-      </section>
-      <section class="content review">
-        {{> review}}
-      </section>
+      <div class="content">
+        <section class="content-wrap finder">
+          {{> brochure}}
+        </section>
+        <section class="content-wrap review">
+          {{> review}}
+        </section>
+      </div>
     </div>
   </div>
 </template>
@@ -44,8 +46,6 @@
 
 <template name="brochure">
   {{#if discovering}}
-  <div class="content-wrap">
-
     <div class="search">
       <div class="search-wrap">
         <h2><strong>Over {{programCount}}</strong>programs available</h2>
@@ -59,40 +59,54 @@
     </div>
 
     <div class="cards">
-      {{#each programs}}
-      <div class="card">
-        <div class="card-wrap" id="{{_id}}">
-          <div class="card-cover" style="background-image: url({{cover}})">
-            <div class="card-kind card-kind-{{kind}}"></div>
-          </div>
-          <div class="card-content">
-            <h2 class="card-title">{{title}}</h2>
+      <div class="cards-wrap gr">
+        {{#each programs}}
+        <div class="card">
+          <div class="card-wrap" id="{{_id}}">
+            <div class="card-cover" style="background-image: url({{cover}})">
+              <div class="card-kind card-kind-{{kind}}"></div>
+            </div>
+            <div class="card-content">
+              <h2 class="card-title">{{title}}</h2>
+            </div>
           </div>
         </div>
+        {{/each}}
       </div>
-      {{/each}}
     </div>
-  </div>
   {{/if}}
 </template>
 
 
 <template name="review">
-  <div class="review-wrap">
-    {{#if card}}
-      {{#with cardData}}
-      <div class="prog-desc">
-        <h2 class="prog-title">{{title}}</h2>
-        <div class="prog-brief">{{brief.long}}</div>
-      </div>
+  {{#if card}}
+    {{#with cardData}}
 
-      <div class="prog-data">
-        <div class="prog-content">{{brief.long}}</div>
+    <div class="prog-desc">
+      <div class="prog-desc-wrap">
+        <div class="prog-title">
+          <h2>{{title}}</h2>
+        </div>
+        <div class="prog-brief">
+          <span class="prog-category">{{category}} </span> / {{brief.long}}
+        </div>
       </div>
-      {{/with}}
-    {{/if}}
-  </div>
+    </div>
+
+    <div class="prog-facts">
+      <div class="prog-facts-wrap gr">
+        <div class="prog-fact">{{salary.med}}</div>
+        <div class="prog-fact prog-fact-salary">{{> _roi salary.med}}</div>
+        <div class="prog-fact">{{salary.max}}</div>
+      </div>
+    </div>
+    {{/with}}
+  {{/if}}
 </template>
 
 
-
+<template name="_roi">
+  <h4 class="prog-fact-title">Return on Investment</h4>
+  <div class="roi-expenses">24,000</div>
+  <div class="roi-salary">{{this}},000</div>
+</template>

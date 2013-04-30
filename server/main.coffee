@@ -7,6 +7,7 @@
 # 
 
 Meteor.startup ->
+  # Mock some courses.
   if not Programs.find().count()
     Programs.insert
       title: "Digital Design"
@@ -21,9 +22,7 @@ Meteor.startup ->
         min: 35
         med: 40
         max: 52
-      # @type {Boolean} Availability
-      enrolling: true
-      prerequisites: [
+      requisites: [
         "CIS120DB", "CIS120DF", "CIS124AA", "CIS124BA", "CIS138DA", 
         "CIS140", "CIS220DF", "CIS288"]
 
@@ -41,9 +40,7 @@ Meteor.startup ->
         min: 35
         med: 38
         max: 42
-      # @type {Boolean} Availability
-      enrolling: true
-      prerequisites: [
+      requisites: [
         "LET106", "LET109", "LET110", "LET125"]
 
 
@@ -60,9 +57,7 @@ Meteor.startup ->
         min: 33
         med: 35
         max: 38
-      # @type {Boolean} Availability
-      enrolling: true
-      prerequisites: [
+      requisites: [
         "CFS206", "CFS207", "CFS209"]
 
 
@@ -79,8 +74,52 @@ Meteor.startup ->
         min: 27
         med: 40
         max: 57
-      # @type {Boolean} Availability
-      enrolling: true
-      prerequisites: [
+      requisites: [
         "CIS105", "GBS233", "MGT229", "PAD122"]
+
+
+    Programs.insert
+      title: "Paralegal Studies"
+      category: "Paralegal"
+      kind: "law"
+      brief: 
+        short: "The Certificate of Completion (CCL) in Paralegal program is designed to provide students with training required for employment as a paralegal."
+        long: "The program covers foundations and types of law including business and tort law in addition to fundamentals of litigation. Courses focus on paralegal responsibilities in the various areas of law practice, including the development of effective written and oral communication skills, critical thinking skills, computer proficiency, and legal research techniques. Legal theory and ethics integrated throughout the program. The program includes both a Certificate of Completion in Paralegal and an Associate in Applied Science in Paralegal."
+      cover: ""
+      # Salary range, in thousands of USD
+      salary: 
+        min: 27
+        med: 40
+        max: 57
+      requisites: [
+        "CIS105"
+        "CRE101"
+        "ENG101"
+        "PAR102"
+        "PAR104"
+        "PAR106"
+        "PAR112"
+        "PAR114"
+        "PAR206"
+        "PAR208"
+        "PAR220"
+        "PAR222"
+        "PAR224"
+      ]
+      credits: [36, 39]
+
+  # Mock some classes.
+  if not Courses.find().count()
+    Courses.insert
+      id: "PAR102"
+      prerequisites: ""
+      description: "Introduction to the responsibilities and ethical standards of a paralegal. Provides an overview of the legal system and role of the paralegal within the system."
+      eclass: true
+      credits: 3
+      # Term name convention: <YYYY><term>
+      # term = [ T1: spring | T2: summer | T3: fall | T4: winer ]
+      terms: ["2013T2", "2013T3", "2014T1"]
+      calendar: 
+        start: "4/29/13"
+        weeks: 8
 
